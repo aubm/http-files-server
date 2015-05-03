@@ -14,14 +14,16 @@ import (
 )
 
 var filesDir string
+var addr string
 var token string
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) < 4 {
 		log.Fatal("Not enough arguments")
 	}
 	filesDir = os.Args[1]
-	token = os.Args[2]
+	addr = os.Args[2]
+	token = os.Args[3]
 
 	r := mux.NewRouter()
 	r.HandleFunc("/listFiles", listFiles)
@@ -29,8 +31,8 @@ func main() {
 	r.HandleFunc("/deleteFile", deleteFile).Methods("DELETE")
 	http.Handle("/", r)
 
-	fmt.Println("Server started on port 8080")
-	http.ListenAndServe(":8080", nil)
+	fmt.Println("Server started " + addr)
+	http.ListenAndServe(addr, nil)
 }
 
 func downloadFile(w http.ResponseWriter, r *http.Request) {
