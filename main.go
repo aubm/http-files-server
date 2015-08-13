@@ -14,16 +14,17 @@ import (
 )
 
 var filesDir string
-var addr string
 var token string
 
 func main() {
-	if len(os.Args) < 4 {
+	if len(os.Args) < 3 {
 		log.Fatal("Not enough arguments")
 	}
 	filesDir = os.Args[1]
-	addr = os.Args[2]
-	token = os.Args[3]
+
+	// Use a docker environnement variable to store
+	// the token instead of a command argument
+	token = os.Args[2]
 
 	r := mux.NewRouter()
 	r.HandleFunc("/listFiles", listFiles)
@@ -31,8 +32,8 @@ func main() {
 	r.HandleFunc("/deleteFile", deleteFile).Methods("DELETE")
 	http.Handle("/", r)
 
-	fmt.Println("Server started " + addr)
-	http.ListenAndServe(addr, nil)
+	fmt.Println("Server started :8888")
+	http.ListenAndServe(":8888", nil)
 }
 
 func downloadFile(w http.ResponseWriter, r *http.Request) {
