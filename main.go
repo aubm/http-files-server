@@ -17,14 +17,12 @@ var filesDir string
 var token string
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) < 2 {
 		log.Fatal("Not enough arguments")
 	}
 	filesDir = os.Args[1]
 
-	// Use a docker environnement variable to store
-	// the token instead of a command argument
-	token = os.Args[2]
+	token = os.Getenv("TOKEN")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/listFiles", listFiles)
