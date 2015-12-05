@@ -74,12 +74,12 @@ func scanDir(dirToScan string) []string {
 			return nil
 		}
 		// Check if file is a hidden file
-		if validId := regexp.MustCompile(`^\.`); validId.MatchString(f.Name()) {
+		if validID := regexp.MustCompile(`^\.`); validID.MatchString(f.Name()) {
 			return nil
 		}
 		// Clear file path prefix
-		validId := regexp.MustCompile(`^` + cleanedFilesDir + `\/`)
-		availableFiles = append(availableFiles, validId.ReplaceAllString(path, ""))
+		validID := regexp.MustCompile(`^` + cleanedFilesDir + `\/`)
+		availableFiles = append(availableFiles, validID.ReplaceAllString(path, ""))
 		return nil
 	})
 	return availableFiles
