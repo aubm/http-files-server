@@ -14,15 +14,17 @@ import (
 )
 
 var filesDir string
+var hostPort string
 var token string
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatal("Not enough arguments")
+	if len(os.Args) < 4 {
+		log.Fatal("Not enough arguments, correct usage is go run main.go ./files 0.0.0.0:8888 mySecretToken")
 	}
-	filesDir = os.Args[1]
 
-	token = os.Getenv("TOKEN")
+	filesDir = os.Args[1]
+	hostPort = os.Args[2]
+	token = os.Args[3]
 
 	r := mux.NewRouter()
 	r.HandleFunc("/listFiles", listFiles)
@@ -30,8 +32,8 @@ func main() {
 	r.HandleFunc("/deleteFile", deleteFile).Methods("DELETE")
 	http.Handle("/", r)
 
-	fmt.Println("Server started :8888")
-	http.ListenAndServe(":8888", nil)
+	fmt.Printf("Server started %s\n", hostPort)
+	http.ListenAndServe(hostPort, nil)
 }
 
 func downloadFile(w http.ResponseWriter, r *http.Request) {
